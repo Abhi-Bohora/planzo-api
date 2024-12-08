@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Planzo.Api", "src\Planzo.Api\Planzo.Api.csproj", "{088C0A6A-397F-4D53-915C-0AD643356D12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Planzo.Data", "src\Planzo.Data\Planzo.Data.csproj", "{AA819BEF-8918-4049-8935-FF8CFF3301AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Planzo.Service", "src\Planzo.Service\Planzo.Service.csproj", "{AFE190E1-9681-4E6A-A15E-C4A8797D5F72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Planzo.Tests", "tests\Planzo.Tests\Planzo.Tests.csproj", "{53AB043A-2E38-4227-BEEA-BD1B4CB39A2A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{088C0A6A-397F-4D53-915C-0AD643356D12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{088C0A6A-397F-4D53-915C-0AD643356D12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{088C0A6A-397F-4D53-915C-0AD643356D12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{088C0A6A-397F-4D53-915C-0AD643356D12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA819BEF-8918-4049-8935-FF8CFF3301AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA819BEF-8918-4049-8935-FF8CFF3301AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA819BEF-8918-4049-8935-FF8CFF3301AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA819BEF-8918-4049-8935-FF8CFF3301AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFE190E1-9681-4E6A-A15E-C4A8797D5F72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFE190E1-9681-4E6A-A15E-C4A8797D5F72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFE190E1-9681-4E6A-A15E-C4A8797D5F72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFE190E1-9681-4E6A-A15E-C4A8797D5F72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53AB043A-2E38-4227-BEEA-BD1B4CB39A2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53AB043A-2E38-4227-BEEA-BD1B4CB39A2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53AB043A-2E38-4227-BEEA-BD1B4CB39A2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53AB043A-2E38-4227-BEEA-BD1B4CB39A2A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
