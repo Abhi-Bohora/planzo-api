@@ -6,6 +6,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Planzo.Data.Configurations;
 using Planzo.Data.Dtos.Auth;
 
 namespace Planzo.Api.Controllers;
@@ -14,18 +15,9 @@ namespace Planzo.Api.Controllers;
 [ApiVersion("1.0")]
 [Route("api/v{v:apiVersion}/[controller]")]
 [Produces("application/json")]
-public class AuthController : ControllerBase
+public class AuthController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+    : ControllerBase
 {
-    private readonly UserManager<IdentityUser> _userManager;
-    private readonly SignInManager<IdentityUser> _signInManager;
-    private readonly IConfiguration _configuration;
-    public AuthController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager, IConfiguration configuration)
-    {
-        _userManager = userManager;
-        _signInManager = signInManager;
-        _configuration = configuration;  
-    }
-
     [HttpPost("signup")]
     [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.Created)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -40,12 +32,25 @@ public class AuthController : ControllerBase
                 StatusCode = (int)HttpStatusCode.BadRequest
             });
         }
-        
-        var user = new IdentityUser {UserName = signUpDto.Email, Email = signUpDto.Email};
-        var result = await _userManager.CreateAsync(user, signUpDto.Password);
+
+        var user = new IdentityUser { UserName = signUpDto.Email, Email = signUpDto.Email };
+
+        var checkEmail = await userManager.FindByEmailAsync(signUpDto.Email);
+
+        if (checkEmail != null)
+        {
+            return BadRequest(new ResponseDto
+            {
+                IsSuccess = false,
+                Message = "Email already exists",
+                StatusCode = (int)HttpStatusCode.BadRequest
+            });
+        }
+
+        var result = await userManager.CreateAsync(user, signUpDto.Password);
         if (!result.Succeeded)
         {
-            return BadRequest( new ResponseDto
+            return BadRequest(new ResponseDto
             {
                 IsSuccess = false,
                 Message = "Failed to create user",
@@ -60,13 +65,13 @@ public class AuthController : ControllerBase
             StatusCode = (int)HttpStatusCode.Created
         });
     }
-    
+
     [HttpPost("login")]
     [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
     {
-        var result = await _signInManager.PasswordSignInAsync(loginDto.Email,
+        var result = await signInManager.PasswordSignInAsync(loginDto.Email,
             loginDto.Password, false, false);
 
         if (!result.Succeeded)
@@ -79,7 +84,7 @@ public class AuthController : ControllerBase
             });
         }
 
-        var user = await _userManager.FindByEmailAsync(loginDto.Email);
+        var user = await userManager.FindByEmailAsync(loginDto.Email);
         var token = GenerateJwtToken(user);
 
         return Ok(new ResponseDto
@@ -98,12 +103,12 @@ public class AuthController : ControllerBase
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Secret"]));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(PlanzoConfig.JwtSettings?.Secret));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            issuer: _configuration["Jwt:Issuer"],
-            audience: _configuration["Jwt:Audience"],
+            issuer: PlanzoConfig.JwtSettings?.Issuer,
+            audience: PlanzoConfig.JwtSettings?.Audience,
             claims: claims,
             expires: DateTime.Now.AddMinutes(30),
             signingCredentials: creds);
