@@ -29,9 +29,9 @@ public class AuthController : ControllerBase
     [HttpPost("signup")]
     [ProducesResponseType(typeof(ResponseDto), (int)HttpStatusCode.Created)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> SignUp([FromBody] RegisterDto registerDto)
+    public async Task<IActionResult> SignUp([FromBody] SignUpDto signUpDto)
     {
-        if (registerDto.Password != registerDto.ConfirmPassword)
+        if (signUpDto.Password != signUpDto.ConfirmPassword)
         {
             return BadRequest(new ResponseDto
             {
@@ -41,8 +41,8 @@ public class AuthController : ControllerBase
             });
         }
         
-        var user = new IdentityUser {UserName = registerDto.Email, Email = registerDto.Email};
-        var result = await _userManager.CreateAsync(user, registerDto.Password);
+        var user = new IdentityUser {UserName = signUpDto.Email, Email = signUpDto.Email};
+        var result = await _userManager.CreateAsync(user, signUpDto.Password);
         if (!result.Succeeded)
         {
             return BadRequest( new ResponseDto
