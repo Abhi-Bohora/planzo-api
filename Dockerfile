@@ -1,0 +1,7 @@
+FROM postgres:latest
+  
+ENV POSTGRES_DB=planzo-db
+ENV POSTGRES_USER=admin
+ENV POSTGRES_PASSWORD=root
+  
+EXPOSE 5432

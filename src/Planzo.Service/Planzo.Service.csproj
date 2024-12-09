@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Planzo.Data\Planzo.Data.csproj" />
+    </ItemGroup>
+
 </Project>
