@@ -1,10 +1,13 @@
 using System.Text;
+using Asp.Versioning;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Planzo.Data;
 using Planzo.Data.Configurations;
+using Planzo.Service;
+using Planzo.Service.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -52,6 +55,17 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Services
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+
+builder.Services.AddApiVersioning(options =>
+{
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.ReportApiVersions = true;
+});
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -63,4 +77,5 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHttpsRedirection();
+app.MapControllers();
 app.Run();
