@@ -57,6 +57,7 @@ builder.Services.AddSwaggerGen();
 
 //Services
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddApiVersioning(options =>
 {

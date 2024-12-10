@@ -43,4 +43,18 @@ public class AuthController(IAuthService authService) : ControllerBase
             ? StatusCode(result.StatusCode, result) 
             : BadRequest(result);
     }
+    
+    [HttpPost("request-password-reset")]
+    public async Task<IActionResult> RequestPasswordReset([FromBody] PasswordResetRequestDto requestDto)
+    {
+        var result = await authService.RequestPasswordResetAsync(requestDto);
+        return result.IsSuccess ? Ok(result) : BadRequest(result);
+    }
+
+    [HttpPost("confirm-password-reset")]
+    public async Task<IActionResult> ConfirmPasswordReset([FromBody] PasswordResetConfirmDto resetDto)
+    {
+        var result = await authService.ConfirmPasswordResetAsync(resetDto);
+        return result.IsSuccess ? Ok(result) : BadRequest(result);
+    }
 }
