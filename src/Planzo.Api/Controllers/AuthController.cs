@@ -28,7 +28,9 @@ public class AuthController(IAuthService authService) : ControllerBase
         }
 
         var result = await authService.SignUpAsync(signUpDto); 
-        return result.IsSuccess ? Ok(result.Data) : BadRequest(result.Message);
+        return result.IsSuccess 
+            ? StatusCode(result.StatusCode, result) 
+            : BadRequest(result);
     }
 
     [HttpPost("login")]
@@ -37,6 +39,8 @@ public class AuthController(IAuthService authService) : ControllerBase
     public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
     {
         var result = await authService.LoginAsync(loginDto);
-        return result.IsSuccess ? Ok(result.Data) : BadRequest(result.Message);
+        return result.IsSuccess 
+            ? StatusCode(result.StatusCode, result) 
+            : BadRequest(result);
     }
 }

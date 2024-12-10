@@ -33,13 +33,14 @@ public class AuthService:IAuthService
                 StatusCode = (int)HttpStatusCode.BadRequest};
         }
         var result = await _userManager.CreateAsync(user, signUpDto.Password);
+        var token = GenerateJwtToken(user);
         if (!result.Succeeded)
         {
             return new ResponseDto()
             {
                 IsSuccess = false,
                 Message = "Failed to create user",
-                StatusCode = (int)HttpStatusCode.BadRequest
+                StatusCode = (int)HttpStatusCode.BadRequest,
             };
         }
 
@@ -47,7 +48,8 @@ public class AuthService:IAuthService
         {
             IsSuccess = true,
             Message = "User created successfully",
-            StatusCode = (int)HttpStatusCode.Created
+            StatusCode = (int)HttpStatusCode.Created,
+            Token = token
         };
     }
 
@@ -72,7 +74,8 @@ public class AuthService:IAuthService
         {
             IsSuccess = true,
             Message = "Login successful.",
-            Data = new TokenResponse { Token = token }
+            StatusCode = (int)HttpStatusCode.OK, 
+            Token = token
         };
     }
     
