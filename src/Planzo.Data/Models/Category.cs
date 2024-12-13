@@ -13,9 +13,8 @@ public class Category
     [StringLength(50)]
     public string Name { get; set; }
     
-    [Required]
     [StringLength(200)]
-    public string Description { get; set; } 
+    public string? Description { get; set; } 
     
     [Required]
     [ForeignKey(nameof(User))]
@@ -24,6 +23,6 @@ public class Category
     public ICollection<Project> Projects { get; set; }
     
     [Required]
-    public DateTime CreatedAt { get; set; } 
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime? UpdatedAt { get; set; } 
 }

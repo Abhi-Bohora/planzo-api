@@ -13,9 +13,8 @@ public class Project
     [StringLength(100)]
     public string Name { get; set; }    
     
-    [Required]
     [StringLength(500)]
-    public string Description { get; set; } 
+    public string? Description { get; set; } 
     
     [Required]
     [ForeignKey(nameof(User))]
@@ -26,8 +25,13 @@ public class Project
     public int CategoryId { get; set; }
     public Category? Category { get; set; }
     public ProjectStatus Status { get; set; } = ProjectStatus.NotStarted;
-    public DateTime StartDate { get; set; } = DateTime.Now; 
-    public DateTime DueDate { get; set; } 
+    public DateTime StartDate { get; set; } = DateTime.UtcNow; 
+    public DateTime EstimateEndDate { get; set; } 
+    
+    [Required]
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public DateTime? UpdatedAt { get; set; }
 }
 
 public enum ProjectStatus
