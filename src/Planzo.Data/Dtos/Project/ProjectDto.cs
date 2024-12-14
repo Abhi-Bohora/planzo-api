@@ -10,7 +10,7 @@ public class ProjectDto
     public DateTime StartDate { get; set; }
     public DateTime EstimateEndDate { get; set; }
     public string UserId { get; set; }
-    public int? CategoryId { get; set; }   
+    public int CategoryId { get; set; }   
     public ProjectStatus Status { get; set; }   
     public DateTime CreatedAt { get; set; } 
     public DateTime UpdatedAt { get; set; }
